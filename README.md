@@ -1,4 +1,4 @@
-# Sumary 
+# Summary 
 Project CSE 325 .NET Class
 
 # Names
