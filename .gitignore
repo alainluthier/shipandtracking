@@ -1,0 +1,13 @@
+# User-specific files
+*.suo
+*.user
+_ReSharper.*
+
+# [Dd]ebug/
+[Rr]elease/
+x64/
+build/
+[Bb]in/
+[Oo]bj/
+
+packages
