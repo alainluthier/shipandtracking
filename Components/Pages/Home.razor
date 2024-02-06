@@ -1,7 +1,26 @@
-﻿@page "/"
+﻿<!-- Pages/Home.razor -->
 
-<PageTitle>Home</PageTitle>
+@page "/"
+@inherits LayoutComponentBase
 
-<h1>Hello, world!</h1>
+<div class="container">
+    <h1>Welcome to Express Haven Shipping</h1>
 
-Welcome to your new app.
+    <div class="row">
+        <div class="col-md-6">
+            <p>
+                Manage your packages and shipments with ease using our app.
+            </p>
+            <p>
+                Sign in to track your packages, schedule shipments, and more.
+            </p>
+            <a href="/login" class="btn btn-primary">Sign In</a>
+        </div>
+        <div class="col-md-6">
+            <!-- Add package images -->
+            <img src="images/package1.jpg" alt="Package 1" class="img-fluid" />
+            <img src="images/package2.jpg" alt="Package 2" class="img-fluid" />
+            <img src="images/package3.jpg" alt="Package 3" class="img-fluid" />
+        </div>
+    </div>
+</div>
