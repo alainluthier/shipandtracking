@@ -2,11 +2,15 @@
 
 using ShipAndTrack.Components;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<RegistrationService>();
+
 
 var app = builder.Build();
 
@@ -25,5 +29,10 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+app.MapGet("/registration-success", () =>
+{
+    return "Registration Success Page";
+});
 
 app.Run();

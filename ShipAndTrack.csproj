@@ -6,4 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Model\Registration.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Components\NewFolder\" />
+  </ItemGroup>
+
 </Project>
