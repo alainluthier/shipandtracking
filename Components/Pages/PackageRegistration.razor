@@ -1,12 +1,72 @@
 ﻿@page "/package-registration"
 @inherits LayoutComponentBase
 
-<h3>Package Registration</h3>
-<form method="post" >
-    <label>Weight (oz - US ounces)</label>
-    <input type="number" name="Weight" id="Weight" min=".5" step=".5">
-    <button type="submit">Register Package</button>
+<h1>Package Registration</h1>
+<form method="post" @onsubmit="RegisterPackage" @formname="package-registration-form" class="row g-3">
+    <AntiforgeryToken />
+    <hr>
+    <h3>Package Dimenssions</h3>
+    <div class="col-md-6">
+        <label class="form-label">
+            Weight (oz - US ounces)
+            @* <InputText @bind-Value="Model!.Id" /> *@
+            <input type="number" name="Weight" id="Weight" @bind-value="Package.Weight" min=".5" step=".5" class="form-control">
+        </label>
+        <label class="form-label">
+            Lenght
+            <InputNumber @bind-Value="Package.Lenght" class="form-control" />
+        </label>
+        <label class="form-label">
+            Width
+            <InputNumber @bind-Value="Package.Width" class="form-control" />
+        </label>
+        <label class="form-label">
+            Height
+            <InputNumber @bind-Value="Package.Height" class="form-control" />
+        </label>
+    </div>
+    <hr>
+    <h3>Recipient's Address</h3>
+    <div class="col-md-6">
+        <label class="form-label">
+            Recipient's Name
+            @* <InputText @bind-Value="Model!.Id" class="form-control" /> *@
+            <InputText @bind-Value="Package.Address.Recipient" class="form-control" />
+        </label>
+        <label class="form-label">
+            Address Street
+            @* <InputText @bind-Value="Model!.Id" class="form-control" /> *@
+            <InputText @bind-Value="Package.Address.Street" class="form-control" />
+        </label>
+        <label class="form-label">
+            City
+            <InputText @bind-Value="Package.Address.City" class="form-control" />
+        </label>
+        <label class="form-label">
+            State
+            <InputText @bind-Value="Package.Address.State" class="form-control" />
+        </label>
+        <label class="form-label">
+            Postal Code
+            <InputText @bind-Value="Package.Address.PostalCode" class="form-control" />
+        </label>
+        <label class="form-label">
+            Country
+            @* <InputText @bind-Value="Model!.Id" class="form-control" /> *@
+            <InputText @bind-Value="Package.Address.Country" class="form-control" />
+        </label>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Register Package</button>
+    </div>
+
 </form>
 @code {
+    
+    public Package? Package{ get; set; } 
+    protected override void OnInitialized() => Package ??= new();
 
+    protected void RegisterPackage(){
+
+    }
 }
