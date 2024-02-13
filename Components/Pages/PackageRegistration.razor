@@ -10,11 +10,12 @@
         <label class="form-label">
             Weight (oz - US ounces)
             @* <InputText @bind-Value="Model!.Id" /> *@
-            <input type="number" name="Weight" id="Weight" @bind-value="Package.Weight" min=".5" step=".5" class="form-control">
+            <input type="number" name="Weight" id="Weight" @bind-value="Package.Weight" min=".5" step=".5"
+                class="form-control">
         </label>
         <label class="form-label">
-            Lenght
-            <InputNumber @bind-Value="Package.Lenght" class="form-control" />
+            Length
+            <InputNumber @bind-Value="Package.Length" class="form-control" />
         </label>
         <label class="form-label">
             Width
@@ -62,11 +63,12 @@
 
 </form>
 @code {
-    
-    public Package? Package{ get; set; } 
+
+    public Package? Package { get; set; }
     protected override void OnInitialized() => Package ??= new();
 
-    protected void RegisterPackage(){
+    protected void RegisterPackage()
+    {
 
     }
 }

@@ -1,30 +1,42 @@
-@page "/tracking"
+@page "/track-package"
 
-<!DOCTYPE html>
-<html>
 
-<head>
-    <title>Package Tracking</title>
-</head>
+<h2>Track Your Package</h2>
 
-<body>
-    <h2>Track Your Package</h2>
-    <form method="post">
-        <div>
-            <label for="trackingNumber">Tracking Number:</label>
-            <input type="text" id="trackingNumber" name="trackingNumber" required />
-        </div>
-        <div>
-            <input type="submit" value="Track Package" />
-        </div>
-    </form>
-
-    @* @if (Model.PackageStatus != null)
-    {
+<form method="post" @onsubmit="CheckPackageStatus">
     <div>
-    <h3>Status: @Model.PackageStatus</h3>
+        <label for="trackingNumber">Tracking Number:</label>
+        <input value="@trackPackageModel.TrackingNumber" @oninput="HandleInput" />
     </div>
-    } *@
-</body>
+    <div>
+        <button type="submit">Track Package</button>
+    </div>
+</form>
 
-</html>
+@if (!string.IsNullOrEmpty(trackPackageModel.PackageStatus))
+{
+    <div>
+    <h3>Status: @trackPackageModel.PackageStatus</h3>
+</div>
+}
+
+@code {
+    private TrackPackageModel trackPackageModel = new TrackPackageModel();
+
+    private async Task CheckPackageStatus()
+    {
+        Console.WriteLine("Hello");
+        trackPackageModel.PackageStatus = "In Transit";
+    }
+
+    private void HandleInput(ChangeEventArgs e)
+    {
+        trackPackageModel.TrackingNumber = e.Value?.ToString();
+    }
+
+    public class TrackPackageModel
+    {
+        public string TrackingNumber { get; set; }
+        public string PackageStatus { get; set; }
+    }
+}
