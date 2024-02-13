@@ -1,3 +1,5 @@
+using ShipAndTrack.Components.Pages;
+
 namespace ShipAndTrack;
 public class Package
 {
@@ -8,4 +10,7 @@ public class Package
     public decimal Width { get; set; }
     public decimal Height { get; set; }
     public decimal Weight { get; set; }
+    public string TrackingNumber { get; set; }
+    public int UserId { get; set; }
+    public Tracking[] Trackings { get; set; }
 }

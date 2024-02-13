@@ -1,0 +1,7 @@
+namespace ShipAndTrack;
+public class Tracking
+{
+    public string packageId { get; set; }
+    public string Status { get; set; }
+
+}
