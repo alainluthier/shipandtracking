@@ -1,9 +1,13 @@
 @page "/track-package"
+@using Microsoft.AspNetCore.Antiforgery
+@attribute [RequireAntiforgeryToken(required: false)]
+@using Microsoft.AspNetCore.Components.Forms
 
 
 <h2>Track Your Package</h2>
 
-<form method="post" @onsubmit="CheckPackageStatus">
+<form method="post" @onsubmit="CheckPackageStatus" @formname='trackingForm'>
+    <AntiforgeryToken />
     <div>
         <label for="trackingNumber">Tracking Number:</label>
         <input value="@trackPackageModel.TrackingNumber" @oninput="HandleInput" />
@@ -25,7 +29,7 @@
 
     private async Task CheckPackageStatus()
     {
-        Console.WriteLine("Hello");
+
         trackPackageModel.PackageStatus = "In Transit";
     }
 
