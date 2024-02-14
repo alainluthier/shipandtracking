@@ -1,0 +1,42 @@
+<!-- Dashboard.razor -->
+@page "/dashboard"
+@code {
+    // Define a model for package data
+    public class PackageModel
+    {
+        public string Id { get; set; }
+        public string Destination { get; set; }
+        public string Status { get; set; }
+    }
+
+    // Mock package data (replace this with actual data retrieval logic)
+    List<PackageModel> packages = new List<PackageModel>
+    {
+        new PackageModel { Id = "123456", Destination = "New York", Status = "Delivered" },
+        new PackageModel { Id = "789012", Destination = "Los Angeles", Status = "Shipped" },
+        new PackageModel { Id = "345678", Destination = "Chicago", Status = "Received" }
+    };
+}
+
+<div class="container">
+    <h2>Package Dashboard</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Package ID</th>
+                <th>Destination</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var package in packages)
+            {
+                <tr>
+                    <td>@package.Id</td>
+                    <td>@package.Destination</td>
+                    <td>@package.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
