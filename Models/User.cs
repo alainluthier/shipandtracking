@@ -7,6 +7,8 @@ namespace ShipAndTrack.Models
         public string FullName {get;set;}
         public string Phone {get;set;}
 
+        public string Role {get;set;}
+
         public ICollection<Package> Packages {get;set;}
     }
 }

@@ -13,7 +13,7 @@ namespace ShipAndTrack.Models
         public User User { get; set; }
         public int AddressID {get;set;}
         public Address Address {get;set;}
-        public ICollection<Tracking> Trackings { get; set; }
+        public virtual List<Tracking> Trackings { get; set; }
     }
 
 }

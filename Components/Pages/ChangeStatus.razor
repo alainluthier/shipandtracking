@@ -1,68 +1,104 @@
+@rendermode InteractiveServer
 @page "/change-status"
-@inherits LayoutComponentBase
+@using ShipAndTrack.Services
+@using ShipAndTrack.Models
+@inject PackageService packageService
 
-<div>
-    <h1>Change Status</h1>
-    <div>
-        <form class="row align-items-center">
-            <div class="col-auto">
-                <input class="form-control" type="search" placeholder="Tracking number" aria-label="Search" name=""
-                    id="">
-            </div>
-
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Track</button>
-            </div>
-        </form>
+<div class="container">
+    <div class="row">
+        <h2>Change Status</h2>
     </div>
-    <form action="">
-        <div class="row mb-3 mt-3">
-            <label class="col-sm-2 col-form-label" for="tracking">
-                Tracking Number
-            </label>
-            <div class="col-sm-8">
-                <input class="form-control" type="text" name="" id="" disabled>
-            </div>
-        </div>
-        <div class="row mb-3 mt-3">
-            <label class="col-sm-2 col-form-label" for="tracking">
-                Description
-            </label>
-            <div class="col-sm-8">
-                <input class="form-control" type="text" name="" id="" disabled>
-            </div>
-        </div>
-        <div class="row mb-3 mt-3">
-            <label class="col-sm-2 col-form-label" for="tracking">
-                Sender
-            </label>
-            <div class="col-sm-8">
-                <input class="form-control" type="text" name="" id="" disabled>
-            </div>
-        </div>
-        <div class="row mb-3 mt-3">
-            <label class="col-sm-2 col-form-label" for="tracking">
-                Recipient
-            </label>
-            <div class="col-sm-8">
-                <input class="form-control" type="text" name="" id="" disabled>
-            </div>
-        </div>
-        <div class="row mb-3 mt-3">
-            <label class="col-sm-2 col-form-label" for="tracking">
-                Status
-            </label>
-            <div class="col-sm-8">
-                <select class="form-select" name="" id="">
-                    <option value="">Acepted</option>
-                    <option value="">Rejected</option>
-                    <option value="">Delivered</option>
-                    <option value="">Arrived</option>
-                </select>
-            </div>
+
+
+    <div class="row align-items-center mt-2">
+        <AntiforgeryToken />
+        <div class="col-auto">
+            <input class="form-control" oninput="this.value=this.value.toUpperCase()"  @bind="@searchValue" type="search" placeholder="Tracking number"
+                aria-label="Search" name="trackingNumber" id="trackingNumber">
         </div>
 
-        <button type="button" class="margin-right: 1rem btn btn-outline-danger">Cancel</button>
-        <button type="submit" class="btn btn-outline-primary">Edit</button>
-    </form>
+        <div class="col-auto">
+            <button class="btn btn-primary" @onclick="Search">Find</button>
+        </div>
+    </div>
+
+    @if (package is null)
+    {
+
+        <p class="lead mt-5">Please enter a tracking number</p>
+    }
+    else
+    {
+        @if (package.Count > 0)
+        {
+            <div class="row mt-5">
+                <h3>Tracking statuses</h3>
+            </div>
+            <div class="row">
+        <table class="table table-striped">
+            <thead>
+                <th scope="col">Tracking Number</th>
+                <th scope="col">Description</th>
+                <th scope="col">Recipient</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+            </thead>
+            <tbody>
+                @foreach (var track in package.ElementAt(0).Trackings)
+                        {
+                            <tr>
+                                <th scope="row">@package.ElementAt(0).TrackingNumber</th>
+                                <td>@package.ElementAt(0).Description</td>
+                                <td>@package.ElementAt(0).Address.Recipient</td>
+                                <td>@package.ElementAt(0).Address.Phone</td>
+                                <td>@track.CreatedAt</td>
+                                <td>@track.Status</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="row mt-5">
+                <h3>Add Status</h3>
+                <div class="col-auto">
+                    <select class="form-select" name="" id="" @bind="status">
+                        <option value="Registered">Rejected</option>
+                        <option value="On the Way">On the Way</option>
+                        <option value="Arrived">Arrived</option>
+                        <option value="Received">Received</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-primary" @onclick="AddTracking">Add</button>
+                </div>
+            </div>
+        }
+        else
+        {
+            <p class="lead mt-5">No results found. Please enter a valid tracking number</p>
+        }
+
+    }
 </div>
+
+@code {
+    private string searchValue;
+    private string status;
+    List<Package> package;
+    Tracking tracking = new();
+    private async Task Search()
+    {
+        if (!string.IsNullOrEmpty(searchValue))
+        {
+            package = await Task.Run(() => packageService.GetPackageByTrackingNumber(searchValue));
+        }
+    }
+    private async Task AddTracking()
+    {
+        tracking.CreatedAt = DateTime.Now;
+        tracking.Status = status;
+        tracking.PackageID = package.ElementAt(0).ID;
+        bool result = await Task.Run(() => packageService.AddTracking(tracking));
+    }
+}

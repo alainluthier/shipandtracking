@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ShipAndTrack.Data;
 using Microsoft.Extensions.DependencyInjection;
 using ShipAndTrack.Components;
-
+using ShipAndTrack.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<RegistrationService>();
+builder.Services.AddScoped<PackageService>();
 
 builder.Services.AddDbContext<ShipAndTrackContext>(options=>
 options.UseSqlite(builder.Configuration.GetConnectionString("ShipAndTrackContext")?? throw new InvalidOperationException("Connection string 'ShipAndTrackContext' not found.")));

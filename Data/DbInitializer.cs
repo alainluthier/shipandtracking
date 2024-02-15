@@ -8,7 +8,8 @@ namespace ShipAndTrack.Data{
             
             var users = new User[]
             {
-                new User{Email="alainluthier@gmail.com",Password="12345678",FullName="Alain Ramos",Phone="+59164123482"}
+                new User{Email="user01@shipandtrack.com",Password="12345678",FullName="James Bond",Phone="+59164123482",Role="user"},
+                new User{Email="delivery@shipandtrack.com",Password="12345678",FullName="Sam Wilson",Phone="+59164123482",Role="delivery"}
             };
             context.Users.AddRange(users);
             context.SaveChanges();
