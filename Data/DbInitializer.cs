@@ -1,11 +1,14 @@
 using ShipAndTrack.Models;
 namespace ShipAndTrack.Data{
     public static class DbInitializer{
+        //code to initilize the database
         public static void Initialize(ShipAndTrackContext context){
+            //First I will check if our table Users has records
+            //If our table Users has records then I will not initialize the database
             if(context.Users.Any()){
                 return;
             }
-            
+            //Inserting users
             var users = new User[]
             {
                 new User{Email="user01@shipandtrack.com",Password="12345678",FullName="James Bond",Phone="+59164123482",Role="user"},

@@ -10,8 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Adding services to use PackageService methods
 builder.Services.AddScoped<PackageService>();
 
+// Adding database conection
 builder.Services.AddDbContext<ShipAndTrackContext>(options=>
 options.UseSqlite(builder.Configuration.GetConnectionString("ShipAndTrackContext")?? throw new InvalidOperationException("Connection string 'ShipAndTrackContext' not found.")));
 
