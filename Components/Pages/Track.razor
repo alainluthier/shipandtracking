@@ -3,7 +3,8 @@
 
 <h2>Track Your Package</h2>
 
-<form method="post" @onsubmit="CheckPackageStatus">
+<form method="post" @onsubmit="CheckPackageStatus" @formname='trackingForm'>
+    <AntiforgeryToken />
     <div>
         <label for="trackingNumber">Tracking Number:</label>
         <input value="@trackPackageModel.TrackingNumber" @oninput="HandleInput" />
@@ -25,7 +26,7 @@
 
     private async Task CheckPackageStatus()
     {
-        Console.WriteLine("Hello");
+
         trackPackageModel.PackageStatus = "In Transit";
     }
 

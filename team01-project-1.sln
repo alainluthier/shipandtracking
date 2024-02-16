@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShipAndTrack", "ShipAndTrack.csproj", "{B00A9057-E778-481B-8030-9DF79DBEF9ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B00A9057-E778-481B-8030-9DF79DBEF9ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B00A9057-E778-481B-8030-9DF79DBEF9ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B00A9057-E778-481B-8030-9DF79DBEF9ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B00A9057-E778-481B-8030-9DF79DBEF9ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {43486342-575D-4771-A257-3C6EA2480222}
+	EndGlobalSection
+EndGlobal
