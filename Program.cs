@@ -1,7 +1,8 @@
-
-
+using Microsoft.EntityFrameworkCore;
+using ShipAndTrack.Data;
+using Microsoft.Extensions.DependencyInjection;
 using ShipAndTrack.Components;
-
+using ShipAndTrack.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddScoped<RegistrationService>();
+// Adding services to use PackageService methods
+builder.Services.AddScoped<PackageService>();
 
+// Adding database conection
+builder.Services.AddDbContext<ShipAndTrackContext>(options=>
+options.UseSqlite(builder.Configuration.GetConnectionString("ShipAndTrackContext")?? throw new InvalidOperationException("Connection string 'ShipAndTrackContext' not found.")));
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
 
@@ -21,7 +28,21 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-app.UseAntiforgery();
+else
+{
+    app.UseDeveloperExceptionPage();
+    app.UseMigrationsEndPoint();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ShipAndTrackContext>();
+    context.Database.EnsureCreated();
+    DbInitializer.Initialize(context);
+}
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
