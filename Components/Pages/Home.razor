@@ -4,66 +4,64 @@
 @inherits LayoutComponentBase
 @using ShipAndTrack.Components
 
-@* <div class="container">
-    <h1>Welcome to Express Haven Shipping</h1>
-
-    <div class="row">
-        <div class="col-md-6">
-            <p>
-                Manage your packages and shipments with ease using our app.
-            </p>
-            <p>
-                Sign in to track your packages, schedule shipments, and more.
-            </p>
-            <p>
+<div class="container">
+    <header class="header" style="margin-top: 20px;">
+        <h1>Welcome to Express Haven Shipping</h1>
+        <div class="action-buttons">
             <NavLink href="/login" class="btn btn-primary">Sign In</NavLink>
-              </p>
-              <p>
-                <NavLink href="/registration" class="btn btn-secondary">Registration</NavLink>
-            </p>
-          
+            <NavLink href="/registration" class="btn btn-secondary">Registration</NavLink>
         </div>
-        <div class="col-md-6">
-            <!-- Add package images -->
-            <img src="images/package1.jpg" alt="Package 1" class="img-fluid" />
-            <img src="images/package2.jpg" alt="Package 2" class="img-fluid" />
-            <img src="images/package3.jpg" alt="Package 3" class="img-fluid" />
-        </div>
-    </div>
-</div> *@
+    </header>
 
-    <div class="row mt-3">
-        <div class="col">
-            <header>
-                <h1>Welcome to Express Haven Shipping</h1>
-            </header>
+    <div class="content" style="margin-top: 20px;">
+        <div class="description">
+            <p>Manage your packages and shipments with ease using our app. Sign in to track your packages, schedule shipments, and more.</p>
         </div>
     </div>
 
-
-    <div class="row">
-        <div class="col-md-6">
-            <p>
-                Manage your packages and shipments with ease using our app.
-            </p>
-            <p>
-                Sign in to track your packages, schedule shipments, and more.
-            </p>
+    <!-- Featured Packages Section -->
+    <section class="featured-packages" style="margin-top: 20px;">
+        <h1>Featured Packages</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="package">
+                    <img src="images/package4.jpg" alt="Express Shipping" class="img-fluid" />
+                    <div class="package-info">
+                        <h3>Express Shipping Package</h3>
+                        <p>Get your packages delivered quickly with our express shipping option. This package ensures fast delivery within 2 days.</p>
+                        <p>Price: $28.00</p>
+                    </div>
+                </div>
+                <!-- Add more packages for the first column -->
+            </div>
+            <div class="col-md-4">
+                <div class="package">
+                    <img src="images/package3.jpg" alt="Priority Shipping" class="img-fluid" />
+                    <div class="package-info">
+                        <h3>Priority Shipping Package</h3>
+                        <p>Ensure priority handling and delivery for your important packages. This package includes special handling and delivery within 1 day.</p>
+                        <p>Price: $36.00</p>
+                    </div>
+                </div>
+                <!-- Add more packages for the second column -->
+            </div>
+            <div class="col-md-4">
+                <div class="package">
+                    <img src="images/package5.jpg" alt="Economy Shipping" class="img-fluid" />
+                    <div class="package-info">
+                        <h3>Economy Shipping Package</h3>
+                        <p>Save money on shipping costs with our economical shipping option. This package offers standard delivery within 5-7 days.</p>
+                        <p>Price: $18.00</p>
+                    </div>
+                </div>
+                <!-- Add more packages for the third column -->
+            </div>
         </div>
-        <div class="col-md-6">
-            <!-- Add an image or additional content here -->
-            <img src="images/package1.jpg" alt="Package 1" class="img-fluid" />
-            <img src="images/package2.jpg" alt="Package 2" class="img-fluid" />
-            <img src="images/package3.jpg" alt="Package 3" class="img-fluid" />
-
-        </div>
+    </section>
+    
+    <!-- Link to the dashboard -->
+    <div class="dashboard-link" style="margin-top: 20px;">
+        <p>View your packages:</p>
+        <a href="/Dashboard" class="btn btn-secondary">Dashboard</a>
     </div>
-
-       <!-- Add link to the dashboard -->
-    <div class="row mt-4">
-        <div class="col-md-12">
-            <p>View your packages:</p>
-            <a href="/Dashboard" class="btn btn-secondary">Dashboard</a>
-        </div>
-    </div>
-
+</div>
