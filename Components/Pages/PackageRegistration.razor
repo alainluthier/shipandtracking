@@ -1,15 +1,107 @@
-﻿@page "/package-registration"
+﻿@using ShipAndTrack.Models
+@using ShipAndTrack.Services
+@using Microsoft.AspNetCore.Components.Forms
+@inject PackageService PackageService
+@inject NavigationManager NavigationManager
+
+@page "/package-registration"
 @inherits LayoutComponentBase
+<div class="container">
+    <h1>Package Registration</h1>
+    <hr>
+    <EditForm Model="Package" OnValidSubmit="RegisterPackage" class="row g-3" FormName="PackageRefForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <h3>Package Details</h3>
+        <div class="col-md-12">
+            <label class="form-label">
+                Description
+                <InputText @bind-Value="Package.Description" class="form-control" required />
+            </label>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">
+                Weight (oz - US ounces)
+                @* <InputText @bind-Value="Model!.Id" /> *@
+                <InputNumber @bind-Value="Package.Weight" class="form-control" required  min=".5" step=".5" />
+            </label>
+            <label class="form-label">
+                Length
+                <InputNumber @bind-Value="Package.Length" class="form-control" />
+            </label>
+            <label class="form-label">
+                Width
+                <InputNumber @bind-Value="Package.Width" class="form-control" />
+            </label>
+            <label class="form-label">
+                Height
+                <InputNumber @bind-Value="Package.Height" class="form-control" />
+            </label>
+        </div>
+        <hr>
+        <h3>Recipient's Address</h3>
+        <div class="col-md-6">
+            <label class="form-label">
+                Recipient's Name
+                <InputText @bind-Value="Package.Address.Recipient" class="form-control" required />
+            </label>
+            <label class="form-label">
+                Address Street
+                <InputText @bind-Value="Package.Address.Street" class="form-control" required />
+            </label>
+            <label class="form-label">
+                City
+                <InputText @bind-Value="Package.Address.City" class="form-control" required />
+            </label>
+            <label class="form-label">
+                State
+                <InputText @bind-Value="Package.Address.State" class="form-control" required />
+            </label>
+            <label class="form-label">
+                Postal Code
+                <InputText @bind-Value="Package.Address.PostalCode" class="form-control" required />
+            </label>
+            <label class="form-label">
+                Country
+                <InputText @bind-Value="Package.Address.Country" class="form-control" required />
+            </label>
+            <label class="form-label">
+                Phone
+                <InputText @bind-Value="Package.Address.Phone" class="form-control" required />
+            </label>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Register Package</button>
+        </div>
 
-<h1>Package Registration</h1>
-
+    </EditForm>
+</div>
 @code {
-/*
+
+    [SupplyParameterFromForm]
     public Package? Package { get; set; }
-    protected override void OnInitialized() => Package ??= new();
 
-    protected void RegisterPackage()
+    protected override void OnInitialized() => Package ??= new() { Address = new() };
+
+    protected void RegisterPackage(EditContext context)
     {
-
-    }*/
+        var valid = context.Validate();
+        if (valid)
+        {
+            this.Package.UserID = this.Package.Address.UserID = 1; //TODO: Replace with Session User ID
+            this.Package.TrackingNumber = this.Package.Address.UserID + "TR" + DateTime.Now.ToOADate().ToString().Replace('.',
+            this.Package.Description[0]); //TODO: Replace with Session User ID
+            var save = PackageService.AddPackage(this.Package);
+            save.Wait();
+            var success = save.Result;
+            if(success){
+                NavigationManager.NavigateTo("/Dashboard");
+            }
+        }
+        else
+        {
+            var messages = context.GetValidationMessages();
+            var howmany = messages.Count();
+        }
+    }
 }
