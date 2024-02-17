@@ -1,43 +1,43 @@
 @page "/track"
+@using ShipAndTrack.Services
+@using ShipAndTrack.Models
+@inject PackageService packageService
 
-
-<h2>Track Your Package</h2>
-
-<form method="post" @onsubmit="CheckPackageStatus" @formname='trackingForm'>
-    <AntiforgeryToken />
-    <div>
-        <label for="trackingNumber">Tracking Number:</label>
-        <input value="@trackPackageModel.TrackingNumber" @oninput="HandleInput" />
+<div class="container">
+    <div class="row">
+        <h2>Track Your Package</h2>
     </div>
-    <div>
-        <button type="submit">Track Package</button>
+    <div class="row align-items-center mt-2">
+        <div class="col-auto">
+            <input class="form-control" @bind="@searchValue" placeholder="Tracking number" aria-label="Search"
+                type="search" name="trackingNumber" id="trackingNumber">
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary" @onclick="FetchTrackingStatus">Track Package</button>
+        </div>
     </div>
-</form>
-
-@if (!string.IsNullOrEmpty(trackPackageModel.PackageStatus))
-{
-    <div>
-    <h3>Status: @trackPackageModel.PackageStatus</h3>
+    @if (!string.IsNullOrEmpty(latestTrackingStatus))
+    {
+        <div class="mt-3">
+            <h3>Status: @latestTrackingStatus</h3>
+        </div>
+    }
 </div>
-}
 
 @code {
-    private TrackPackageModel trackPackageModel = new TrackPackageModel();
+    private string searchValue;
+    private string latestTrackingStatus = "Tracking status will be displayed here.";
 
-    private async Task CheckPackageStatus()
+    private async Task FetchTrackingStatus()
     {
+        if (!string.IsNullOrEmpty(searchValue))
+        {
+            latestTrackingStatus = "button clicked";
+        }
+        else
+        {
+            latestTrackingStatus = "No package found";
+        }
 
-        trackPackageModel.PackageStatus = "In Transit";
-    }
-
-    private void HandleInput(ChangeEventArgs e)
-    {
-        trackPackageModel.TrackingNumber = e.Value?.ToString();
-    }
-
-    public class TrackPackageModel
-    {
-        public string TrackingNumber { get; set; }
-        public string PackageStatus { get; set; }
     }
 }
