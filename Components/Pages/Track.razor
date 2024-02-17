@@ -1,3 +1,4 @@
+@rendermode InteractiveServer
 @page "/track"
 @using ShipAndTrack.Services
 @using ShipAndTrack.Models
@@ -13,7 +14,7 @@
                 type="search" name="trackingNumber" id="trackingNumber">
         </div>
         <div class="col-auto">
-            <button class="btn btn-primary" @onclick="FetchTrackingStatus">Track Package</button>
+            <button class="btn btn-primary" @onclick="FetchTrackingStatus" type="button">Track Package</button>
         </div>
     </div>
     @if (!string.IsNullOrEmpty(latestTrackingStatus))
@@ -32,7 +33,7 @@
     {
         if (!string.IsNullOrEmpty(searchValue))
         {
-            latestTrackingStatus = "button clicked";
+            latestTrackingStatus = await packageService.GetLatestTrackingStatusByTrackingNumber(searchValue);
         }
         else
         {
