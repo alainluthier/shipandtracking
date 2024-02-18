@@ -1,0 +1,50 @@
+@page "/shoppingcart"
+@using System.Linq
+@inject NavigationManager Navigation
+@code {
+    // Define a model for the shopping cart item
+    public class ShoppingCartItem
+    {
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    List<ShoppingCartItem> ShoppingCartItems = new List<ShoppingCartItem>();
+
+    // Method to calculate the total price of items in the shopping cart
+    decimal CalculateTotal()
+    {
+        return ShoppingCartItems.Sum(item => item.Price);
+    }
+
+    void GoBack()
+    {
+        Navigation.NavigateTo("/dashboard");
+    }
+}
+
+<div class="container">
+    <h2>Shopping Cart</h2>
+    <ul class="list-group">
+        @foreach (var item in ShoppingCartItems)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                @item.Name
+                <span class="badge badge-primary badge-pill">$@item.Price</span>
+            </li>
+        }
+    </ul>
+
+    <div class="row mt-4">
+        <div class="col">
+            <h4>Total: $@CalculateTotal()</h4>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="dashboard-link" style="margin-top: 20px;">
+            <p>Go to the Dashboard to View All of Our Shipping Packages:</p>
+            <a href="/Dashboard" class="btn btn-secondary">Dashboard</a>
+        </div>
+    </div>
+</div>

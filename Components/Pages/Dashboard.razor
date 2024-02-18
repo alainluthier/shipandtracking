@@ -1,42 +1,97 @@
-<!-- Dashboard.razor -->
 @page "/dashboard"
+@using System.Linq
+@inject NavigationManager Navigation
 @code {
     // Define a model for package data
     public class PackageModel
     {
         public string Id { get; set; }
-        public string Destination { get; set; }
-        public string Status { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public decimal Price { get; set; }
+        public bool IsPurchased { get; set; }
     }
 
-    // Mock package data (replace this with actual data retrieval logic)
-    List<PackageModel> packages = new List<PackageModel>
+    // Define a model for the shopping cart item
+    public class ShoppingCartItem
     {
-        new PackageModel { Id = "123456", Destination = "New York", Status = "Delivered" },
-        new PackageModel { Id = "789012", Destination = "Los Angeles", Status = "Shipped" },
-        new PackageModel { Id = "345678", Destination = "Chicago", Status = "Received" }
-    };
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
+
+    // Mock featured package data (replace this with actual data retrieval logic)
+    List<PackageModel> FeaturedPackages = new List<PackageModel>
+{
+new PackageModel { Id = "1", Name = "Express Shipping", Description = "Get your packages delivered quickly", Price =
+28.00m, IsPurchased = false },
+new PackageModel { Id = "2", Name = "Priority Shipping", Description = "Ensure priority handling and delivery", Price =
+36.00m, IsPurchased = false },
+new PackageModel { Id = "3", Name = "Economy Shipping", Description = "Save money on shipping costs", Price = 18.00m,
+IsPurchased = false },
+new PackageModel { Id = "4", Name = "International Shipping", Description = "Ship your packages internationally", Price
+= 42.00m, IsPurchased = false },
+// Add more featured packages here
+};
+
+    List<ShoppingCartItem> ShoppingCartItems = new List<ShoppingCartItem>();
+
+    void AddToCart(PackageModel package)
+    {
+        ShoppingCartItems.Add(new ShoppingCartItem { Name = package.Name, Price = package.Price });
+        package.IsPurchased = true;
+    }
+
+    void GoToCart()
+    {
+        Navigation.NavigateTo("/shoppingcart");
+    }
 }
 
 <div class="container">
-    <h2>Package Dashboard</h2>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Package ID</th>
-                <th>Destination</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var package in packages)
-            {
-                <tr>
-                    <td>@package.Id</td>
-                    <td>@package.Destination</td>
-                    <td>@package.Status</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <div class="row">
+        <div class="col-md-8">
+            <h2>Featured Shipping Packages</h2>
+            <div class="row">
+                @foreach (var package in FeaturedPackages)
+                {
+                    <div class="col-md-6 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">@package.Name</h5>
+                                <p class="card-text">@package.Description</p>
+                                <p class="card-text">Price: $@package.Price</p>
+                                @if (!package.IsPurchased)
+                                {
+                                    <button class="btn btn-primary" @onclick="() => AddToCart(package)">Add to Cart</button>
+                                }
+                                else
+                                {
+                                    <p class="text-success">Purchased</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h2>Shopping Cart</h2>
+            <ul class="list-group">
+                @foreach (var item in ShoppingCartItems)
+                {
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        @item.Name
+                        <span class="badge badge-primary badge-pill">$@item.Price</span>
+                    </li>
+                }
+            </ul>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="dashboard-link" style="margin-top: 20px;">
+                        <a href="/ShoppingCart" class="btn btn-secondary">View Shopping Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
