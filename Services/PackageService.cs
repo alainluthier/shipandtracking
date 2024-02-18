@@ -33,6 +33,18 @@ namespace ShipAndTrack.Services
             return true;
         }
 
+        public async Task<string> GetLatestTrackingStatusByTrackingNumber(string track)
+        {
+            var latestTracking = await _context.Packages
+                .Where(p => p.TrackingNumber == track)
+                .SelectMany(p => p.Trackings)
+                .OrderByDescending(t => t.CreatedAt)
+                .FirstOrDefaultAsync();
+
+            return latestTracking?.Status;
+        }
+
+
         public async Task<bool> AddPackage(Package package)
         {
             _context.Add(package);
