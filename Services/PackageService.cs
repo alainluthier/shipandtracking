@@ -44,14 +44,23 @@ namespace ShipAndTrack.Services
             return latestTracking?.Status;
         }
 
-
-        public async Task<bool> AddPackage(Package package)
+        /// <summary>
+        /// Registers new package for a user
+        /// </summary>
+        /// <param name="package">Package model instance containint all the package information, including address.</param>
+        /// <returns>True if it is successfully created otherwise False.</returns>
+        public async Task<bool> AddPackageAsync(Package package)
         {
-            if(package.Trackings == null || package.Trackings.Count == 0){
-                package.Trackings = new List<Tracking>{new Tracking { Status = "Registered", CreatedAt= DateTime.Now }};
+            // Include default status entry if it was not defined.
+            if (package.Trackings == null || package.Trackings.Count == 0)
+            {
+                package.Trackings = new List<Tracking> { new Tracking { Status = "Registered", CreatedAt = DateTime.Now } };
             }
+            // Add package to the DB context
             _context.Add(package);
+            // Save package information in Database
             var result = await _context.SaveChangesAsync();
+            // return if result data saving was succesfull
             return (result > 0);
         }
     }

@@ -85,23 +85,27 @@
 
     protected void RegisterPackage(EditContext context)
     {
+        //validating Package model
         var valid = context.Validate();
+        // If model is valid then store it in DB
         if (valid)
         {
+            // Adding package details user ID and new tracking number
             this.Package.UserID = this.Package.Address.UserID = 1; //TODO: Replace with Session User ID
-            this.Package.TrackingNumber = this.Package.Address.UserID + "TR" + DateTime.Now.ToOADate().ToString().Replace('.',
-            this.Package.Description[0]); //TODO: Replace with Session User ID
-            var save = PackageService.AddPackage(this.Package);
-            save.Wait();
-            var success = save.Result;
+            this.Package.TrackingNumber = this.Package.Address.UserID + "TR" + DateTime.Now.ToOADate().ToString().Replace('.',this.Package.Description[0]); //TODO: Replace with Session User ID
+            // Store package in database
+            var resultTask = PackageService.AddPackageAsync(this.Package);
+            resultTask.Wait();
+            var success = resultTask.Result;
+            // if package saving was sucessful then redirect to dashboard
             if(success){
                 NavigationManager.NavigateTo("/Dashboard");
+                return;
             }
         }
-        else
-        {
-            var messages = context.GetValidationMessages();
-            var howmany = messages.Count();
-        }
+        // if not valid or error occurs then display messages
+        var messages = context.GetValidationMessages();
+        var howmany = messages.Count();
+        //TODO: Display specific error messages
     }
 }
