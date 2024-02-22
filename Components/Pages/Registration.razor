@@ -4,7 +4,74 @@
 @inherits LayoutComponentBase
 @inject RegistrationService RegistrationService
 @inject NavigationManager NavigationManager
+@using ShipAndTrack.Models
+@using Microsoft.AspNetCore.Components.Forms
 
+<div class="container">
+    <h1>User Registration</h1>
+    <p>Please fill in this form to create an account.</p>
+    <hr />
+    <EditForm Model="user" OnValidSubmit="RegisterUser" class="row g-3" FormName="RegistrationForm">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-<h1>Registration</h1>
+        <div class="col-md-6">
+            <div class="form-label">
+                <label>
+                    Full Name
+                </label>
+                <InputText @bind-Value="user.FullName" placeholder="Enter your full name" class="form-control"
+                    required />
+            </div>
+            <div class="form-label">
+                <label>
+                    Email
+                </label>
+                <InputText @bind-Value="user.Email" type="email" placeholder="youremail@email.com" class="form-control"
+                    required />
+            </div>
+            <div class="form-label">
+                <label>
+                    Phone
+                </label>
+                <InputText @bind-Value="user.Phone" type="tel" placeholder="123-45-678" class="form-control"
+                    pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required />
+            </div>
 
+            <div class="form-label">
+                <label>
+                    Password
+                </label>
+                <InputText @bind-Value="password" type="password" placeholder="Enter Password" class="form-control"
+                    required />
+            </div>
+            <div class="form-label">
+                <label>
+                    Confirm Password
+                </label>
+                <InputText @bind-Value="confirmPassword" type="password" placeholder="Repeat Password"
+                    class="form-control" required />
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">Register User</button>
+        </div>
+        <div>
+            <p>Already have an account? <a href="/login">Sign in</a></p>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    private User user = new User();
+    private string password = string.Empty;
+    private string confirmPassword = string.Empty;
+
+    protected void RegisterUser(EditContext context)
+    {
+        if (context.Validate())
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
+}
