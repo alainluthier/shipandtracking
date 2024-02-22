@@ -47,6 +47,9 @@ namespace ShipAndTrack.Services
 
         public async Task<bool> AddPackage(Package package)
         {
+            if(package.Trackings == null || package.Trackings.Count == 0){
+                package.Trackings = new List<Tracking>{new Tracking { Status = "Registered", CreatedAt= DateTime.Now }};
+            }
             _context.Add(package);
             var result = await _context.SaveChangesAsync();
             return (result > 0);
