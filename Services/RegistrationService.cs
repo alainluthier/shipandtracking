@@ -1,4 +1,4 @@
-﻿public class RegistrationService
+public class RegistrationService
 {
     /*private List<RegistrationModel> registeredUsers = new List<RegistrationModel>();
 
