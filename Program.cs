@@ -4,7 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using ShipAndTrack.Components;
 using ShipAndTrack.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddScoped<PackageService>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

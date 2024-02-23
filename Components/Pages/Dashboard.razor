@@ -5,17 +5,19 @@
     // Define a model for package data
     public class PackageModel
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public string? Id { get; set; }
+        public string? Name { get; set; }
+        public string? Description { get; set; }
         public decimal Price { get; set; }
         public bool IsPurchased { get; set; }
+
+        public string? Status { get; set; }
     }
 
     // Define a model for the shopping cart item
     public class ShoppingCartItem
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public decimal Price { get; set; }
     }
 
@@ -29,22 +31,31 @@ new PackageModel { Id = "2", Name = "Priority Shipping", Description = "Ensure p
 new PackageModel { Id = "3", Name = "Economy Shipping", Description = "Save money on shipping costs", Price = 18.00m,
 IsPurchased = false },
 new PackageModel { Id = "4", Name = "International Shipping", Description = "Ship your packages internationally", Price
-= 42.00m, IsPurchased = false },
-// Add more featured packages here
+= 42.00m, IsPurchased = false }
 };
 
+    // Mock shopping cart data (replace this with actual data retrieval logic)
     List<ShoppingCartItem> ShoppingCartItems = new List<ShoppingCartItem>();
 
     void AddToCart(PackageModel package)
     {
         ShoppingCartItems.Add(new ShoppingCartItem { Name = package.Name, Price = package.Price });
-        package.IsPurchased = true;
+        StateHasChanged(); // Refresh UI after adding to cart
     }
 
     void GoToCart()
     {
-        Navigation.NavigateTo("/shoppingcart");
+        Navigation.NavigateTo("/ShoppingCart");
     }
+
+    // Mock package data (replace this with actual data retrieval logic)
+    List<PackageModel> packages = new List<PackageModel>
+{
+new PackageModel { Id = "123456", Description = "New York", Price = 50.00m, IsPurchased = false },
+new PackageModel { Id = "789012", Description = "Los Angeles", Price = 40.00m, IsPurchased = false },
+new PackageModel { Id = "345678", Description = "Chicago", Price = 30.00m, IsPurchased = false }
+
+};
 }
 
 <div class="container">
@@ -60,6 +71,8 @@ new PackageModel { Id = "4", Name = "International Shipping", Description = "Shi
                                 <h5 class="card-title">@package.Name</h5>
                                 <p class="card-text">@package.Description</p>
                                 <p class="card-text">Price: $@package.Price</p>
+                                <p class="card-text">Status: @package.Status</p> <!-- Displaying the status -->
+
                                 @if (!package.IsPurchased)
                                 {
                                     <button class="btn btn-primary" @onclick="() => AddToCart(package)">Add to Cart</button>
@@ -85,6 +98,7 @@ new PackageModel { Id = "4", Name = "International Shipping", Description = "Shi
                     </li>
                 }
             </ul>
+
             <div class="row mt-4">
                 <div class="col">
                     <div class="dashboard-link" style="margin-top: 20px;">
@@ -93,5 +107,30 @@ new PackageModel { Id = "4", Name = "International Shipping", Description = "Shi
                 </div>
             </div>
         </div>
+    </div>
+
+    <hr />
+
+    <div class="container">
+        <h2>Package Dashboard</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Package ID</th>
+                    <th>Destination</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var package in packages)
+                {
+                    <tr>
+                        <td>@package.Id</td>
+                        <td>@package.Description</td>
+                        <td>@package.Status</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </div>

@@ -5,7 +5,7 @@
     // Define a model for the shopping cart item
     public class ShoppingCartItem
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public decimal Price { get; set; }
     }
 
@@ -19,7 +19,7 @@
 
     void GoBack()
     {
-        Navigation.NavigateTo("/dashboard");
+        Navigation.NavigateTo("/Dashboard");
     }
 }
 
@@ -43,8 +43,7 @@
 
     <div class="row mt-4">
         <div class="dashboard-link" style="margin-top: 20px;">
-            <p>Go to the Dashboard to View All of Our Shipping Packages:</p>
-            <a href="/Dashboard" class="btn btn-secondary">Dashboard</a>
+            <a href="/Dashboard" class="btn btn-secondary">Back to Dashboard</a>
         </div>
     </div>
 </div>
